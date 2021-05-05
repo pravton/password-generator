@@ -4,7 +4,8 @@ var passwordObj = {
   alphabetCharUpper: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
   alphabetCharLower: "abcdefghijklmnopqrstuvwxyz",
   numbericChar: "1234567890",
-  specialChar: "!\'\"\&\#\\\$%()*+,-./:;<=>?@[]^_`{|}"
+  specialChar: "!\'\"\&\#\\\$%()*+,-./:;<=>?@[]^_`{|}",
+  userCharacterPool: ""
 };
 
 //create an object for password criteria
@@ -19,7 +20,7 @@ var passwordCriteria = {
 //create a random funtion
 var randomNumb = function(charLength) {
   var randomResult = Math.floor((Math.random() * charLength) + 1);
-
+  //return the random rumber
   return randomResult;
 };
 
@@ -69,72 +70,58 @@ var askQuestions = function() {
   }
 };
 
+//create a funtion to create the character pool based on the user selection
+var characterPool = function () {
+    
+  if (passwordCriteria.includeUpperCase) {
+    passwordObj.userCharacterPool = passwordObj.userCharacterPool + passwordObj.alphabetCharUpper;
+  }
+  if (passwordCriteria.includeLowerCase) {
+    passwordObj.userCharacterPool = passwordObj.userCharacterPool + passwordObj.alphabetCharLower;
+  }
+  if (passwordCriteria.includeSpecialChar) {
+    passwordObj.userCharacterPool = passwordObj.userCharacterPool + passwordObj.specialChar;
+  }
+  if (passwordCriteria.includeNumericChar) {
+    passwordObj.userCharacterPool = passwordObj.userCharacterPool + passwordObj.numbericChar;
+  }
+
+  //return passwordObj.userCharacterPool;
+};
+
 //Create a funtion to generate the password
 var generatePassword = function() {
 
   //Ask question from the user what to include in password charactors
   askQuestions();
-  //create a variable for the passwordlength
+  //Declare a variable for the passwordlength
   var passwordLength = passwordCriteria.charecterLimit; 
 
-  //generate password with Loop
-  var createdPassword = "";
-  //Loop for the random charactors
-  for (var i = 0; i < passwordLength; i++) {
-    if (passwordCriteria.includeUpperCase) {
-    //Random charactors generate from alphabetUpperCase
-    createdPassword += passwordObj.alphabetCharUpper.charAt(randomNumb(passwordObj.alphabetCharUpper.length));
-    }
+  //Reset a variable for the userCharacterPool
+  passwordObj.userCharacterPool = "";
 
-    if (passwordCriteria.includeLowerCase) {
-      //Random charactors generate from alphabetLoweCase
-      createdPassword += passwordObj.alphabetCharLower.charAt(randomNumb(passwordObj.alphabetCharLower.length));
-    }
+  //run the characterPool function to create the chacterPool based on the user inout
+  characterPool();
 
-    if (passwordCriteria.includeSpecialChar) {
-      //Random charactors generate from specialChar
-      createdPassword += passwordObj.specialChar.charAt(randomNumb(passwordObj.specialChar.length));
-    }
-    
-    if (passwordCriteria.includeNumericChar) {
-      //Random charactors generate from numericChar
-      createdPassword += passwordObj.numbericChar.charAt(randomNumb(passwordObj.numbericChar.length));
-    }
-  }
-
+  //display the user criteria on the console 
   console.log("User wants to include the UpperCase : " + passwordCriteria.includeUpperCase);
   console.log("User wants to include the LowerCase : " + passwordCriteria.includeLowerCase);
   console.log("User wants to include the SpecialCharacter : " + passwordCriteria.includeSpecialChar);
   console.log("User wants to include the NumericalCharater : " + passwordCriteria.includeNumericChar);
-  console.log("The full createdPasword : " + createdPassword);
 
-  //create a funtion to limit the password characters
-  var limitChar = function() { 
-  //create a variable for the password length
-    var fullGenPass = createdPassword;
-    //if the generated password is more the the user defined length limit the strings
-    if (fullGenPass.length > passwordLength) {
-      fullGenPass = fullGenPass.substring(0,passwordLength);
-    }
-    return fullGenPass;
-  };
-  
-  console.log("The Password after limiting the characters : " + limitChar());
+  //create a variable for the final password
+  var genPassword = "";
 
-  //suffle the password to create even more random password
-  var shuffledPassword = function() {
-    //spilt the characters into string
-    var passwordSplit = limitChar().split("");
-    //random sort to shuffle the arrays
-    passwordSplit.sort(function(){return 0.5 - Math.random()});
-    //return the shuffled as strings
-    return passwordSplit.join("");
-  };
+  //loop funtion to generate the password with the user prefered length
+  for (var i = 0; i < passwordLength; i++) {
+    genPassword += passwordObj.userCharacterPool.charAt(randomNumb(passwordObj.userCharacterPool.length));
+  }
 
-  //return the shuffled password
-  return shuffledPassword();
+  //return the generated password
+  return genPassword;
     
 };
+
 //assignment Code End
 
 // Get references to the #generate element
