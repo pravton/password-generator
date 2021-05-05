@@ -16,18 +16,12 @@ var passwordCriteria = {
   includeNumericChar: true
 };
 
-/* //Test Password Obj property length
-console.log(passwordObj.alphabetCharUpper.length); */
-
 //create a random funtion
 var randomNumb = function(charLength) {
   var randomResult = Math.floor((Math.random() * charLength) + 1);
 
   return randomResult;
 };
-
-/* //test random funtion
-console.log(randomNumb(passwordCriteria.charecterLimit)); */
  
 //Create a funtion to generate the password
 var generatePassword = function() {
@@ -35,12 +29,13 @@ var generatePassword = function() {
   //Ask question from the user what to include in password charactors
 
   //ask question about with how many charactors to generte the password
-  passwordCriteria.charecterLimit = parseInt(prompt("How many charectars you would like to include?"), 10);
+  passwordCriteria.charecterLimit = parseInt(prompt("How many charectars would you like to include in your password?"), 10);
   console.log("User wants a password with " + passwordCriteria.charecterLimit + " characters!")
   //check if the password length is between 8 and 128
   if (
     passwordCriteria.charecterLimit < 8 || 
-    passwordCriteria.charecterLimit > 128
+    passwordCriteria.charecterLimit > 128 || 
+    !passwordCriteria.charecterLimit
     ) {
     //if it is alert the user to choose a number betwwen 8 and 128
     alert("Please enter a number between 8 and 128!")
@@ -50,7 +45,7 @@ var generatePassword = function() {
     //ask question to include uppercase charactors
     passwordCriteria.includeUpperCase = confirm("Would you like to include Uppercase?");
     //ask question to include lowercase charactors
-    passwordCriteria.includeLowerCase = confirm("Would you like to include LoweCase?");
+    passwordCriteria.includeLowerCase = confirm("Would you like to include LowerCase?");
     //ask question to confirm to include the special charactors
     passwordCriteria.includeSpecialChar = confirm("Would you like to include special Characters");
     //ask question to confirm to include numberic values
@@ -68,7 +63,7 @@ var generatePassword = function() {
       alert("You need to alteast select one of the options!")
       // run the funtion again
       generatePassword();
-    } 
+    };
   }
 
 
@@ -101,13 +96,13 @@ var generatePassword = function() {
   }
 
   //Limit the password charactors to the password length 
-  var FullGenPass = createdPassword;
-  if (FullGenPass.length > passwordLength) {
-    FullGenPass = FullGenPass.substring(0,passwordLength);
+  var fullGenPass = createdPassword;
+  if (fullGenPass.length > passwordLength) {
+    fullGenPass = fullGenPass.substring(0,passwordLength);
   }
 
   //return the limited password
-  return FullGenPass;
+  return fullGenPass;
 };
 
 //assignment Code End
