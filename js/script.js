@@ -5,7 +5,7 @@ var passwordObj = {
   alphabetCharLower: "abcdefghijklmnopqrstuvwxyz",
   numbericChar: "1234567890",
   specialChar: "!\'\"\&\#\\\$%()*+,-./:;<=>?@[]^_`{|}"
-}
+};
 
 //create an object for password criteria
 var passwordCriteria = {
@@ -14,7 +14,7 @@ var passwordCriteria = {
   includeLowerCase: true,
   includeUpperCase: true,
   includeNumericChar: true
-}
+};
 
 /* //Test Password Obj property length
 console.log(passwordObj.alphabetCharUpper.length); */
@@ -24,7 +24,7 @@ var randomNumb = function(charLength) {
   var randomResult = Math.floor((Math.random() * charLength) + 1);
 
   return randomResult;
-}
+};
 
 /* //test random funtion
 console.log(randomNumb(passwordCriteria.charecterLimit)); */
@@ -68,7 +68,7 @@ var generatePassword = function() {
       alert("You need to alteast select one of the options!")
       // run the funtion again
       generatePassword();
-    };
+    } 
   }
 
 
