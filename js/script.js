@@ -10,7 +10,7 @@ var passwordObj = {
 
 //create an object for password criteria
 var passwordCriteria = {
-  charecterLimit: 8,
+  charecterLimit: 0,
   includeSpecialChar: true,
   includeLowerCase: true,
   includeUpperCase: true,
@@ -74,7 +74,7 @@ var askQuestions = function() {
 var characterPool = function () {
     
   if (passwordCriteria.includeUpperCase) {
-    passwordObj.userCharacterPool = passwordObj.userCharacterPool + passwordObj.alphabetCharUpper;
+    passwordObj.userCharacterPool += passwordObj.alphabetCharUpper;
   }
   if (passwordCriteria.includeLowerCase) {
     passwordObj.userCharacterPool = passwordObj.userCharacterPool + passwordObj.alphabetCharLower;
@@ -85,17 +85,33 @@ var characterPool = function () {
   if (passwordCriteria.includeNumericChar) {
     passwordObj.userCharacterPool = passwordObj.userCharacterPool + passwordObj.numbericChar;
   }
-
   //return passwordObj.userCharacterPool;
+};
+
+//create a funtion to loop and length the password
+var passwordGenLoop = function() {
+  //Declare a variables
+  var passwordLength = passwordCriteria.charecterLimit; 
+  var genPassword = "";
+
+  //loop funtion to generate the password with the user prefered length
+  for (var i = 0; i < passwordLength; i++) {
+    genPassword += passwordObj.userCharacterPool.charAt(randomNumb(passwordObj.userCharacterPool.length));
+  }
+
+  //if condition to double check if the looped password matches the passwordLength
+  if (passwordLength !== genPassword.length) {
+    //return the generated password
+    return passwordGenLoop();
+  } else {
+    return genPassword;
+  }
 };
 
 //Create a funtion to generate the password
 var generatePassword = function() {
-
   //Ask question from the user what to include in password charactors
   askQuestions();
-  //Declare a variable for the passwordlength
-  var passwordLength = passwordCriteria.charecterLimit; 
 
   //Reset a variable for the userCharacterPool
   passwordObj.userCharacterPool = "";
@@ -108,28 +124,29 @@ var generatePassword = function() {
   console.log("User wants to include the LowerCase : " + passwordCriteria.includeLowerCase);
   console.log("User wants to include the SpecialCharacter : " + passwordCriteria.includeSpecialChar);
   console.log("User wants to include the NumericalCharater : " + passwordCriteria.includeNumericChar);
+ 
+  //return the final password by running the loop funtion
+  return passwordGenLoop();    
+};
 
-  //create a variable for the final password
-  var genPassword = "";
-
-  //loop funtion to generate the password with the user prefered length
-  for (var i = 0; i < passwordLength; i++) {
-    genPassword += passwordObj.userCharacterPool.charAt(randomNumb(passwordObj.userCharacterPool.length));
+//create a funtion to generate a different password with same criteria.
+var differntPassword = function() {
+  if (!passwordCriteria.charecterLimit) {
+    alert("Please click GENERATE PASSWORD to create a password first!")
   }
-
-  //return the generated password
-  return genPassword;
-    
+  //return the final password by running the loop funtion
+  return passwordGenLoop();
 };
 
 //assignment Code End
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
+var generateDiffBtn = document.querySelector("#generateDiff");
 
 // Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
+function writePassword(passFunc) {
+  var password = passFunc;
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
@@ -137,4 +154,11 @@ function writePassword() {
 }
 
 // Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
+generateBtn.addEventListener("click", function() {
+  writePassword(generatePassword());
+});
+
+// Add event listener to generate different button
+generateDiffBtn.addEventListener("click", function() {
+  writePassword(differntPassword());
+});
