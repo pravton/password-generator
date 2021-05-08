@@ -10,14 +10,14 @@ var passwordObj = {
 
 //create an object for password criteria
 var passwordCriteria = {
-  charecterLimit: 0,
+  characterLimit: 0,
   includeSpecialChar: true,
   includeLowerCase: true,
   includeUpperCase: true,
   includeNumericChar: true
 };
 
-//create a random funtion
+//create a random function
 var randomNumb = function(charLength) {
   var randomResult = Math.floor((Math.random() * charLength) + 1);
   //return the random rumber
@@ -27,20 +27,20 @@ var randomNumb = function(charLength) {
 //Ask questions or present with password criteria
 var askQuestions = function() {
   //ask question about with how many charactors to generte the password
-  passwordCriteria.charecterLimit = parseInt(prompt("How many characters would you like to include in your password?"), 10);
-  console.log("User wants a password with " + passwordCriteria.charecterLimit + " characters!")
+  passwordCriteria.characterLimit = parseInt(prompt("How many characters would you like to include in your password?"), 10);
+  console.log("User wants a password with " + passwordCriteria.characterLimit + " characters!")
   //check if the password length is between 8 and 128
   if (
-    passwordCriteria.charecterLimit < 8 || 
-    passwordCriteria.charecterLimit > 128 || 
-    !passwordCriteria.charecterLimit
+    passwordCriteria.characterLimit < 8 || 
+    passwordCriteria.characterLimit > 128 || 
+    !passwordCriteria.characterLimit
     ) {
     //if it is alert the user to choose a number betwwen 8 and 128
     alert("Please enter a number between 8 and 128!")
-    //run the funtion again
+    //run the function again
     return askQuestions();
   } else {
-    //create a funtion to ask the password critera questions
+    //create a function to ask the password critera questions
     var askQuestionsCritera = function() {
       //ask question to include uppercase charactors
       passwordCriteria.includeUpperCase = confirm("Click OK to include UPPERCASE characters in your password?");
@@ -52,7 +52,7 @@ var askQuestions = function() {
       passwordCriteria.includeNumericChar = confirm("Click OK to include NUMERIC characters in your password?");
       
 
-      //check if the user selected one of the character, if not run askQuestionsCritera the funtion again
+      //check if the user selected one of the character, if not run askQuestionsCritera the function again
       if (
         passwordCriteria.includeUpperCase === false &&
         passwordCriteria.includeLowerCase === false &&
@@ -61,40 +61,43 @@ var askQuestions = function() {
       ) {
         // alert the user they need to atleast choose one of the option
         alert("You need to alteast select one of the options!")
-        // run the funtion again
+        // run the function again
         return askQuestionsCritera();
       }
     }
-    //execute the askQuestionsCritera funtion
+    //execute the askQuestionsCritera function
     askQuestionsCritera();
   }
 };
 
-//create a funtion to create the character pool based on the user selection
+//create a function to create the character pool based on the user selection
 var characterPool = function () {
-    
+  //If the user chose to include upperCase, include the upperCase character in the pool
   if (passwordCriteria.includeUpperCase) {
     passwordObj.userCharacterPool += passwordObj.alphabetCharUpper;
   }
+  //If the user chose to include lowerCase, include the lowerCase character in the pool
   if (passwordCriteria.includeLowerCase) {
     passwordObj.userCharacterPool = passwordObj.userCharacterPool + passwordObj.alphabetCharLower;
   }
+  //If the user chose to include specialCharacter, include the specialCharacter character in the pool
   if (passwordCriteria.includeSpecialChar) {
     passwordObj.userCharacterPool = passwordObj.userCharacterPool + passwordObj.specialChar;
   }
+  //If the user chose to include numericCharacter, include the numericCharacter character in the pool
   if (passwordCriteria.includeNumericChar) {
     passwordObj.userCharacterPool = passwordObj.userCharacterPool + passwordObj.numbericChar;
   }
   //return passwordObj.userCharacterPool;
 };
 
-//create a funtion to loop and length the password
+//create a function to loop and length the password
 var passwordGenLoop = function() {
   //Declare a variables
-  var passwordLength = passwordCriteria.charecterLimit; 
+  var passwordLength = passwordCriteria.characterLimit; 
   var genPassword = "";
 
-  //loop funtion to generate the password with the user prefered length
+  //loop function to generate the password with the user prefered length
   for (var i = 0; i < passwordLength; i++) {
     genPassword += passwordObj.userCharacterPool.charAt(randomNumb(passwordObj.userCharacterPool.length));
   }
@@ -104,11 +107,12 @@ var passwordGenLoop = function() {
     //return the generated password
     return passwordGenLoop();
   } else {
+    //retun the generated password
     return genPassword;
   }
 };
 
-//Create a funtion to generate the password
+//Create a function to generate the password
 var generatePassword = function() {
   //Ask question from the user what to include in password charactors
   askQuestions();
@@ -125,16 +129,16 @@ var generatePassword = function() {
   console.log("User wants to include the SpecialCharacter : " + passwordCriteria.includeSpecialChar);
   console.log("User wants to include the NumericalCharater : " + passwordCriteria.includeNumericChar);
  
-  //return the final password by running the loop funtion
+  //return the final password by running the loop function
   return passwordGenLoop();    
 };
 
-//create a funtion to generate a different password with same criteria.
+//create a function to generate a different password with same criteria.
 var differntPassword = function() {
-  if (!passwordCriteria.charecterLimit) {
+  if (!passwordCriteria.characterLimit) {
     alert("Please click GENERATE PASSWORD to create a password first!")
   }
-  //return the final password by running the loop funtion
+  //return the final password by running the loop function
   return passwordGenLoop();
 };
 
