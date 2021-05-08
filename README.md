@@ -10,9 +10,9 @@ User wants to randomly generate a password that meets certain criteria.
 - CSS
 
 ## Acceptance Criteria
-- When the user clicks the password generate button, pesented with aa series of prompts for password criteria. 
+- When the user clicks the password generate button, pesented with a series of prompts for password criteria. 
 - When prompt with the length of password, the user should be able to only choose a length between 8 and 128 characters. 
-- When promt with the character to include, the user should be able to choose uppercase, lowercase, special or numerical characters. 
+- When prompt with the character to include, the user should be able to choose uppercase, lowercase, special or numerical characters. 
 - User must choose atleast one type of character. 
 - When all the promts are answered, the password is generated that matches the criteria. 
 - When the password is generated, the password must be displayed or written to the page. 
